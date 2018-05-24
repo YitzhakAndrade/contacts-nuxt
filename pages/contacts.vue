@@ -1,5 +1,9 @@
 <template>
   <div>
+      <div>
+        <md-button class="md-raised" :to="('/contact-details/')">New Contact</md-button>
+      </div>
+
       <md-card md-with-hover 
         v-for="(contact, index) in contacts" :key="index" 
         :to="('/contact-details/'+contact.mongoId)"
@@ -16,6 +20,7 @@
           <md-button :to="('/contact-details/'+contact.mongoId)">Details</md-button>
         </md-card-actions>
       </md-card>
+
   </div>
 </template>
 

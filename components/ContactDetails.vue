@@ -1,9 +1,11 @@
 <template>
   <div>
+    <md-button class="md-raised" :to="('/contacts/')">Back</md-button>
     <md-button class="md-raised" v-on:click="addPhone()">Add Phone</md-button>
     <md-button class="md-raised" v-on:click="addEmail()">Add E-mail</md-button>
-
-    <md-button class="md-raised md-accent">Delete Contact</md-button>  
+    <md-button class="md-raised md-accent" 
+      v-if="contact.mongoId"
+      v-on:click="deleteContact(contact.mongoId)">Delete Contact</md-button>
 
     <div v-if="contact">
       <md-field class="md-layout-item md-size-40 md-small-size-100">
@@ -50,11 +52,14 @@
 </template>
 
 <script>
+
+import axios from 'axios'
+
 export default {
   props: ['datacontact'],
   data() {
     return {
-      contact: this.datacontact || { phones: [], emails: [] }
+      contact: this.datacontact
     }
   },
   methods: {
@@ -63,6 +68,11 @@ export default {
     },
     addEmail() {
       this.contact.emails.push({})
+    },
+    deleteContact(mongoId) {
+        if (!mongoId) return
+        var url = `https://contacts-dot-net-core.azurewebsites.net/api/contacts/${mongoId}`
+        axios.delete(url)
     }
   }
 };

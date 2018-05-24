@@ -6,6 +6,13 @@ const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
 
 module.exports = {
   routerBase,
+  modules: [ 
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy'
+  ],
+  axios: {
+    // proxyHeaders: false
+  },
   /*
   ** Headers of the page
   */
