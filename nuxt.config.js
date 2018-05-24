@@ -7,12 +7,8 @@ const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
 module.exports = {
   routerBase,
   modules: [ 
-    '@nuxtjs/axios',
-    '@nuxtjs/proxy'
+    '@nuxtjs/axios'
   ],
-  axios: {
-    // proxyHeaders: false
-  },
   /*
   ** Headers of the page
   */
@@ -24,11 +20,8 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ],
-    css :[
-      'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons',
-      'https://fonts.googleapis.com/icon?family=Material+Icons'
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', type: 'text/css', href: '//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons' }
     ]
   },
   /*
