@@ -5,9 +5,7 @@ const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
 } : {}
 
 module.exports = {
-  router: {
-    base: '/contacts-nuxt/dist/'
-  },
+  routerBase,
   modules: [ 
     '@nuxtjs/axios'
   ],
