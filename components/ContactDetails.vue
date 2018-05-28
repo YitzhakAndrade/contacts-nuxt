@@ -5,7 +5,8 @@
     <md-button class="md-raised" v-on:click="addEmail()">Add E-mail</md-button>
     <md-button class="md-raised md-accent" 
       v-if="contact.mongoId"
-      v-on:click="deleteContact(contact.mongoId)">Delete Contact</md-button>
+      @click="confirmDeleteActive = true"
+      >Delete Contact</md-button>
 
     <div v-if="contact">
       <md-field class="md-layout-item md-size-40 md-small-size-100">
@@ -47,19 +48,35 @@
           v-on:click="contact.emails.splice(index, 1)">Remove</md-button>
       </div>
 
+      <md-button class="md-raised md-accent md-layout-item" 
+          v-on:click="save()">Save</md-button>
+
     </div>
+
+    <md-dialog-confirm
+      :md-active.sync="confirmDeleteActive"
+      md-title="Are you sure?"
+      md-content="Do you really want to delete this contact?"
+      md-confirm-text="Yes, delete"
+      @md-confirm="onConfirm" />
+
   </div>
 </template>
 
 <script>
 
 import axios from 'axios'
+import Snackbar from '~/components/Snackbar.vue';
 
 export default {
+  components: {
+    Snackbar
+  },
   props: ['datacontact'],
   data() {
     return {
-      contact: this.datacontact
+      contact: this.datacontact,
+      confirmDeleteActive: false
     }
   },
   methods: {
@@ -69,10 +86,21 @@ export default {
     addEmail() {
       this.contact.emails.push({})
     },
-    deleteContact(mongoId) {
-        if (!mongoId) return
-        var url = `https://contacts-dot-net-core.azurewebsites.net/api/contacts/${mongoId}`
-        axios.delete(url)
+    async onConfirm () {
+      await this.deleteContact(this.contact.mongoId)
+      this.$router.replace({ path: '/contacts' })
+    },
+    openConfirmDeleteDialog() {
+      confirmDeleteActive = true
+    },
+    async deleteContact(mongoId) {
+      if (!mongoId) return
+      var url = `https://contacts-dot-net-core.azurewebsites.net/api/contacts/${mongoId}`
+      await axios.delete(url)
+    },
+    save() {
+      var url = 'https://contacts-dot-net-core.azurewebsites.net/api/contacts/'
+      axios.post(url, this.contact)
     }
   }
 };
